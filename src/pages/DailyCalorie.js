@@ -4,40 +4,96 @@ import { connect } from 'react-redux';
 import CommonButton from '../components/CommonButton';
 import { ProgressBar } from 'react-native-paper';
 import { calculateTargetDate } from '../helpers';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+
 
 function DailyCalorie(props) {
 
-    const [dailyCalorie, setDailyCalorie] = React.useState();
+    const [dailyCalorie, setDailyCalorie] = React.useState(props.dailyCals);
+    const [carbonhydrate, setCarbonhydrate] = React.useState();
+    const [protein, setProtein] = React.useState();
+    const [fat, setFat] = React.useState();
+
+    const formState = props.route.params.formState;
+
+    function writeUserData(user) {
+        database().ref('users/' + user.uid).set(user).catch(error => {
+            console.log(error.message)
+        });
+    }
+
+    async function createNewAccount() {
+        try {
+            const user = auth().currentUser;
+            if(user){
+            var userr = {
+                name: formState.inputValues.name,
+                uid: user.uid,
+                email: user.email,
+                weight: props.weight,
+                height: props.height,
+                age: props.inputAge,
+                gender: props.selectedGender
+            }
+            writeUserData(userr)
+        }
+            props.navigation.navigate('Sayfa');
+    
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    React.useEffect(() => {
+        setDailyCalorie(props.dailyCals);
+    })
 
 
     React.useEffect(() => {
         if (props.selectedTargetWeight == 1) {
             if (props.selectedGender == 0) {
                 let bmr = (10 * props.weight) + (6.25 * props.height) - (5 * props.inputAge) - 161;
-                setDailyCalorie(bmr);
+                let bmrResult = bmr * 1.3;
+                props.updateDailyCalorie(parseInt(bmrResult));
             } else {
                 let bmr = (10 * props.weight) + (6.25 * props.height) - (5 * props.inputAge) + 5;
-                setDailyCalorie(bmr);
+                let bmrResult = bmr * 1.3;
+                props.updateDailyCalorie(parseInt(bmrResult));
             }
         } else if (props.selectedTargetWeight == 0) {
             if (props.selectedGender == 0) {
                 let bmr = (10 * props.weight) + (6.25 * props.height) - (5 * props.inputAge) - 661;
-                setDailyCalorie(bmr);
+                let bmrResult = bmr * 1.3;
+                props.updateDailyCalorie(parseInt(bmrResult));
             } else {
                 let bmr = (10 * props.weight) + (6.25 * props.height) - (5 * props.inputAge) - 495;
-                setDailyCalorie(bmr);
+                let bmrResult = bmr * 1.3;
+                props.updateDailyCalorie(parseInt(bmrResult));
             }
         }
         else if (props.selectedTargetWeight == 2) {
             if (props.selectedGender == 0) {
                 let bmr = (10 * props.weight) + (6.25 * props.height) - (5 * props.inputAge) + 339;
-                setDailyCalorie(bmr);
+                let bmrResult = bmr * 1.3;
+                props.updateDailyCalorie(parseInt(bmrResult));
             } else {
                 let bmr = (10 * props.weight) + (6.25 * props.height) - (5 * props.inputAge) + 505;
-                setDailyCalorie(bmr);
+                let bmrResult = bmr * 1.3;
+                props.updateDailyCalorie(parseInt(bmrResult));
             }
         }
     }, []);
+
+    React.useEffect(() => {
+    let carb = (dailyCalorie * 0.5) / 4 ;
+    setCarbonhydrate(parseInt(carb));
+    let fat = (dailyCalorie * 0.3) / 9 ;
+    setFat(parseInt(fat));
+    let protein = (dailyCalorie * 0.2) / 4 ;
+    setProtein(parseInt(protein));
+
+    },[dailyCalorie])
 
     console.log(props.selectedGender)
 
@@ -50,6 +106,10 @@ function DailyCalorie(props) {
                 <Text style={styles.weightText}>{props.weight}</Text>
                 <Text style={styles.weightText}>-----</Text>
                 <Text style={styles.weightText}>{props.goalWeight}</Text>
+                <Text style={styles.weightText}>{carbonhydrate}</Text>
+                <Text style={styles.weightText}>{protein}</Text>
+                <Text style={styles.weightText}>{fat}</Text>
+
             </View>
             <Text style={{ textAlign: 'center', color: 'white' }}>
                 Follow your recommendations and you will reach your goal on {calculateTargetDate(props.weight, props.goalWeight)}
@@ -76,7 +136,7 @@ function DailyCalorie(props) {
                 </View>
                 <ProgressBar progress={0.2} color='blue' style={styles.progressBar} />
             </View>
-            <CommonButton title='GET STARTED' onPress={null} />
+            <CommonButton title='GET STARTED' onPress={createNewAccount} />
         </View>
     )
 }
@@ -126,9 +186,16 @@ function mapStateToProps(state) {
         selectedGender: state.selectedGender,
         selectedTargetWeight: state.selectedTargetWeight,
         inputAge: state.inputAge,
+        dailyCals: state.dailyCals
     }
 }
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        updateDailyCalorie: (param) => dispatch({
+            type: 'UPDATE-DAILY-CALORIE', payload: {
+                dailyCals: param,
+            }
+        }),
+    }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DailyCalorie);

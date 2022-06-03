@@ -1,5 +1,9 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import _ from "lodash";
+
+
+
 
 const initialState = {
     selectedWeightBaseIndex: 0,
@@ -13,7 +17,8 @@ const initialState = {
     goalWeight: 0,
     selectedGender: null,
     selectedTargetWeight: null,
-    inputAge: 0
+    inputAge: 0,
+    dailyCals: 0,
 };
 
 function reducers(state = initialState, action) {
@@ -78,11 +83,21 @@ function reducers(state = initialState, action) {
             const incomingInputAge = _.cloneDeep(data.inputAge);
             return { ...state, inputAge: incomingInputAge };
         }
+        case 'UPDATE-DAILY-CALORIE': {
+            const data = _.cloneDeep(action.payload);
+            const incomingDailyCalorie = _.cloneDeep(data.dailyCals);
+            return { ...state, dailyCals: incomingDailyCalorie };
+        }
+        case "UPDATE_CALORIE_SUG": {
+           
+            return { ...state, dailyCals: state.dailyCals + 1 };
+        }
+       
 
         default:
             return state;
     }
 }
-let store = createStore(reducers);
+let store = createStore(reducers, applyMiddleware(thunk));
 
 export default store;

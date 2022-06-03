@@ -2,7 +2,6 @@ import React from "react";
 import { SafeAreaView, TouchableOpacity, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import CommonButton from '../components/CommonButton';
-import auth from '@react-native-firebase/auth';
 
 
 const image = { uri: "http://www.londonesthetic.com/wp-content/uploads/2018/03/slider-2-1.jpg" };
@@ -18,13 +17,12 @@ function Home(props) {
     const login = () => {
         setVisible(!visible);
         props.navigation.navigate('LogIn');
+
     }
 
-    const signup = () => {
-        auth().createUserWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!',)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-    };
+
+
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -38,9 +36,6 @@ function Home(props) {
                     <CommonButton title='GET STARTED' onPress={() => props.navigation.navigate('StartPlan')} />
                     <TouchableOpacity style={styles.logInButton} onPress={toggleBottomNavigationView}>
                         <Text style={styles.loginButtonText}>LOG IN</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.logInButton} onPress={signup}>
-                        <Text style={styles.loginButtonText}>sign up</Text>
                     </TouchableOpacity>
                 </View>
                 <BottomSheet
