@@ -5,7 +5,6 @@ import { connect, useDispatch } from 'react-redux';
 import UserInput from '../components/UserInput';
 import { signup } from '../store/actions/auth';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import auth from '@react-native-firebase/auth';
 
 
 
@@ -63,12 +62,23 @@ function SignIn(props) {
             return;
         }
 
-        await auth().createUserWithEmailAndPassword(formState.inputValues.email, formState.inputValues.password);
+        // await auth().createUserWithEmailAndPassword(formState.inputValues.email, formState.inputValues.password);
+        let action = signup(
+            formState.inputValues.email,
+            formState.inputValues.password,
+            formState.inputValues.name,
+            props.selectedGender,
+            props.inputAge,
+            props.weight,
+            props.height,
+          );
+
         
         setError(null)
         setIsLoading(true)
         try {
-            props.navigation.navigate('DailyCalorie', {formState})
+            await dispatch(action);
+            props.navigation.navigate('DailyCalorie')
         } catch (err) {
             setError(err.message)
             setIsLoading(false)

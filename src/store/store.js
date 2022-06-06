@@ -2,7 +2,13 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import _ from "lodash";
 
+import { AUTHENTICATE } from './actions/auth';
 
+import { ADD_MEAL } from './actions/auth'
+import { SET_USERMEAL } from './actions/auth'
+import { SET_INGREDIENTS } from './actions/auth'
+import { ADD_INGREDIENT } from './actions/auth'
+import { DELETE_INGREDIENT } from './actions/auth'
 
 
 const initialState = {
@@ -19,6 +25,19 @@ const initialState = {
     selectedTargetWeight: null,
     inputAge: 0,
     dailyCals: 0,
+
+    token: null,
+    userId: null,
+
+    ingredients: [],
+    nutritientSuggestions: [],
+    todayMeal: {},
+    weekSummary: [],
+    userMeals: [],
+    calorySuggestion: null,
+    caloryRef: null,
+    nutrients: [],
+    mealIngredients: []
 };
 
 function reducers(state = initialState, action) {
@@ -88,12 +107,121 @@ function reducers(state = initialState, action) {
             const incomingDailyCalorie = _.cloneDeep(data.dailyCals);
             return { ...state, dailyCals: incomingDailyCalorie };
         }
-        case "UPDATE_CALORIE_SUG": {
-           
-            return { ...state, dailyCals: state.dailyCals + 1 };
+        case AUTHENTICATE: {
+            return { ...state, token: action.token, userId: action.userId }
         }
-       
+        case SET_INGREDIENTS: {
 
+            return { ...state, ingredients: action.ingredients, mealIngredients: action.mealIngredients}
+        }
+        case ADD_MEAL: {
+            return { ...state, mealIngredients: [] }
+        }
+        case ADD_INGREDIENT: {
+            const ingredientToAdd = state.ingredients.find(ingredient => ingredient.id === action.ingredientId);
+            return { ...state, mealIngredients: state.mealIngredients.concat(ingredientToAdd) }
+        }
+        case DELETE_INGREDIENT: {
+            const ingredientToRemove = state.mealIngredients.find(ingredient => ingredient.id === action.ingredientId);
+            const ingredientHolder = [...state.mealIngredients]
+            const updatedIndex = ingredientHolder.findIndex(ingredient => ingredient.id === ingredientToRemove.id)
+            ingredientHolder.splice(updatedIndex, 1)
+            return { ...state, mealIngredients: ingredientHolder }
+        }
+        case SET_USERMEAL: {
+            let cals = 0
+            let nutrientsTotal = 0;
+            let refCals;
+            let fatTotal = 0;
+            let proteinTotal = 0;
+            let carbsTotal = 0;
+
+            let weekCals = 0
+            let weekFat = 0;
+            let weekProtein = 0;
+            let weekCarbs = 0;
+
+            let mealsOfDay = {}
+            let summary = []
+
+           
+
+            refCals = 3865
+
+
+            let now = moment();
+
+            const meals = action.nutritientSuggestions
+
+            for (var meal = 0; meal < meals.length; meal++) {
+                const ingredientList = meals[meal].ingredients
+                const timestamp = meals[meal].timestamp
+
+                let newMonth = timestamp.month + 1
+                let monthLetter;
+                let dayLetter;
+                if (newMonth.toString().length < 2) {
+                    monthLetter = `0${monthPlus}`
+                }
+                else {
+                    monthLetter = newMonth.toString()
+                }
+                if (timestamp.day.toString().length < 2) {
+                    dayLetter = `0${timestamp.day.toString()}`
+                } else {
+                    dayLetter = timestamp.day.toString()
+                }
+
+                let dateString = `${timestamp.year}-${monthLetter}-${dayLetter}`
+
+                if (now.isoWeek() == moment(dateString).isoWeek()) {
+                    for (var ingredient = 0; ingredient < ingredientList.length; ingredient++) {
+                        //do one read operation from array per round
+                        const item = ingredientList[ingredient]
+
+                        const weeklyCalories = item.energi2.split(/[=}]/)[2]
+                        const weeklyFat = item.fat.split(/[=}]/)[2]
+                        const weeklyCarbs = item.carbs.split(/[=}]/)[2]
+                        const weeklyProtein = item.protein.split(/[=}]/)[2]
+                        weekCals += parseInt(weeklyCalories)
+                        weekFat += parseInt(weeklyFat)
+                        weekCarbs += parseInt(weeklyCarbs)
+                        weekProtein += parseInt(weeklyProtein)
+                    }
+                }
+
+                if (timestamp.day == action.day && timestamp.month == action.month && timestamp.year == action.year) {
+                    for (var ingredient = 0; ingredient < ingredientList.length; ingredient++) {
+                        //do one read operation from array per round
+                        const item = ingredientList[ingredient]
+
+                        const calories = item.energi2.split(/[=}]/)[2]
+                        const fat = item.fat.split(/[=}]/)[2]
+                        const carbs = item.carbs.split(/[=}]/)[2]
+                        const protein = item.protein.split(/[=}]/)[2]
+                        cals += parseInt(calories)
+                        nutrientsTotal = nutrientsTotal + parseInt(fat) + parseInt(carbs) + parseInt(protein)
+                        fatTotal += parseInt(fat)
+                        carbsTotal += parseInt(carbs)
+                        proteinTotal += parseInt(protein)
+
+                        mealsOfDay[meals[meal].mealType] = parseInt(calories)
+                    }
+                }
+            }
+            summary.push({ cals: weekCals, protein: weekProtein, carbs: weekCarbs, fat: weekFat })
+
+            let nutrientsObj = {
+                total: nutrientsTotal,
+                fat: fatTotal,
+                carbs: carbsTotal,
+                protein: proteinTotal
+            }
+
+            const suggestedCals = refCals - cals
+
+            return { ...state, nutritientSuggestions: action.nutritientSuggestions, calorySuggestion: suggestedCals, caloryRef: refCals, nutrients: nutrientsObj, todayMeal: mealsOfDay, weekSummary: summary }
+        }
         default:
             return state;
     }

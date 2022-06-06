@@ -15,35 +15,10 @@ function DailyCalorie(props) {
     const [protein, setProtein] = React.useState();
     const [fat, setFat] = React.useState();
 
-    const formState = props.route.params.formState;
 
-    function writeUserData(user) {
-        database().ref('users/' + user.uid).set(user).catch(error => {
-            console.log(error.message)
-        });
-    }
-
-    async function createNewAccount() {
-        try {
-            const user = auth().currentUser;
-            if(user){
-            var userr = {
-                name: formState.inputValues.name,
-                uid: user.uid,
-                email: user.email,
-                weight: props.weight,
-                height: props.height,
-                age: props.inputAge,
-                gender: props.selectedGender
-            }
-            writeUserData(userr)
-        }
-            props.navigation.navigate('Sayfa');
     
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
+
+    
 
     React.useEffect(() => {
         setDailyCalorie(props.dailyCals);
@@ -136,7 +111,7 @@ function DailyCalorie(props) {
                 </View>
                 <ProgressBar progress={0.2} color='blue' style={styles.progressBar} />
             </View>
-            <CommonButton title='GET STARTED' onPress={createNewAccount} />
+            <CommonButton title='GET STARTED' onPress={() => props.navigation.navigate('Sayfa')} />
         </View>
     )
 }

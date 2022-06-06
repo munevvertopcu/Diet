@@ -25,7 +25,7 @@ function Sayfa() {
     <Tab.Navigator>
       <Tab.Screen name='HomeScreen' component={HomeScreen} options={{headerShown: false}}/>
       <Tab.Screen name="AddButton" component={() => null} options={({navigation}) => ({
-        tabBarButton: () => <AddButton navigation={navigation}/>
+        tabBarIcon: () => <AddButton navigation={navigation}/>
       })}
       />
       {/* <Tab.Screen name="AddButton" component={() => null} options={{
