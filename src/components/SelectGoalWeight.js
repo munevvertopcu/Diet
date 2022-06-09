@@ -31,7 +31,7 @@ function SelectGoalWeight(props) {
         onPress = {() => {
             props.updateSelectedTargetWeight(item.id);
         }}
-        style = {[styles.item, selectedTargetWeightOption == item.id ? styles.selectedStyle : {borderColor: '#fffafa'}]}
+        style = {[styles.item, selectedTargetWeightOption == item.id ? styles.selectedStyle : {borderColor: '#696969'}]}
         >
         <Text style={styles.itemText}>
         {item.title}
@@ -52,12 +52,12 @@ function SelectGoalWeight(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        backgroundColor: '#fff',
         flex: 1,
         justifyContent: 'space-between',
     },
     text: {
-        color: '#fffafa',
+        color: 'black',
         marginBottom: 15,
         textAlign: 'center',
         marginHorizontal:20,
@@ -65,22 +65,22 @@ const styles = StyleSheet.create({
     },
     textHeader: {
         fontSize: 25,
-        color: '#fffafa',
+        color: 'black',
         textAlign: 'center',
         marginHorizontal: 20,
         marginBottom: 20
     },
     item: {
-        padding: 25,
+        padding: 20,
         marginVertical: 10,
         marginHorizontal: 16,
-        borderColor: '#fffafa',
         borderWidth: 1,
         borderRadius: 10,
         alignItems: 'center'
     },
     itemText: {
-        color: '#fffafa'
+        color: 'black',
+        fontSize: 15
     },
     selectedStyle: {
         borderColor: '#00fa9a',

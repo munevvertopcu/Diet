@@ -24,10 +24,14 @@ function SelectDateofBirth(props) {
                             props.updateInputAge(number);
                         }}
                         value={age}
-                        placeholder="useless placeholder"
+                        placeholder="your age..."
+                        placeholderTextColor= "#808080"
                         keyboardType="numeric"
+                        textAlign='center'
+                       
+                        
                     />
-                    <Text>Age: {age}</Text>
+                    
                 </View>
             </View>
         </View>
@@ -55,15 +59,21 @@ const styles = StyleSheet.create({
     },
     dateView: {
         alignItems: 'center',
-        marginTop: 35
+        marginTop: 20
 
     },
    
     input: {
-        height: 40,
+        height: 60,
+        width: 140,
         margin: 12,
         borderWidth: 1,
-        padding: 10,
+        borderRadius: 10,
+        borderColor: "#a9a9a9",
+        backgroundColor: '#a9a9a9',
+        fontSize: 25,
+        color: "white",
+        fontWeight: "bold"
       },
 
 })

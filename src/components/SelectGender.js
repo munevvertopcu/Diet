@@ -26,7 +26,7 @@ function SelectGender(props) {
             onPress={() => {
                 props.updateSelectedGender(item.id);
             }}
-            style={[styles.item, selectedGenderOption == item.id ? styles.selectedStyle : { borderColor: '#fffafa' }]}
+            style={[styles.item, selectedGenderOption == item.id ? styles.selectedStyle : { borderColor: '#696969' }]}
         >
             <Text style={styles.itemText}>
                 {item.title}
@@ -48,12 +48,12 @@ function SelectGender(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        backgroundColor: '#fff',
         flex: 1,
         justifyContent: 'space-between',
     },
     text: {
-        color: '#fffafa',
+        color: 'black',
         marginBottom: 15,
         textAlign: 'center',
         marginHorizontal:20,
@@ -61,13 +61,13 @@ const styles = StyleSheet.create({
     },
     textHeader: {
         fontSize: 25,
-        color: '#fffafa',
+        color: 'black',
         textAlign: 'center',
         marginHorizontal: 20,
         marginBottom: 20
     },
     item: {
-        padding: 30,
+        padding: 25,
         marginVertical: 10,
         marginHorizontal: 16,
         borderColor: '#fffafa',
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     itemText: {
-        color: '#fffafa'
+        color: 'black',
+        fontSize: 15
     },
     selectedStyle: {
         borderColor: '#00fa9a',

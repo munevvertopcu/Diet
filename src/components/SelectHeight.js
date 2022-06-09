@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import ScrollPicker from 'react-native-picker-scrollview';
+import ScrollPicker from 'react-native-wheel-scrollview-picker';
 import { connect } from 'react-redux';
 
 
@@ -55,7 +55,7 @@ function SelectHeight(props) {
                 <Text style={styles.text}>Thanks, you're doing great!</Text>
                 <Text style={styles.textHeader}>What's your height?</Text>
             </View>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', borderWidth: 2, borderRadius: 7, marginHorizontal: 8, borderColor :'#676b6d' }}>
                 <ScrollPicker
                     ref={(sp) => { sp = sp }}
 
@@ -63,12 +63,14 @@ function SelectHeight(props) {
                     selectedIndex={selectedBaseIndex}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor={'#ffffff'}
-                    highlightColor={'#d8d8d8'}
+                    wrapperColor='#a7afb3'
+                    highlightColor={'#676b6d'}
+                    highlightBorderWidth={2}
+                    
                     renderItem={(data, index, isSelected) => {
                         return (
                             <View>
-                                <Text>{data}</Text>
+                                <Text style={styles.picker}>{data}</Text>
                             </View>
                         )
                     }}
@@ -85,12 +87,14 @@ function SelectHeight(props) {
                     selectedIndex={0}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor={'#ffffff'}
-                    highlightColor={'#d8d8d8'}
+                    
+                    wrapperColor={'#a7afb3'}
+                    highlightColor={'#676b6d'}
+                    highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
                             <View>
-                                <Text>{data}</Text>
+                                <Text style={styles.picker}>{data}</Text>
                             </View>
                         )
                     }}
@@ -103,12 +107,13 @@ function SelectHeight(props) {
                     selectedIndex={selectedFloatingIndex}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor={'#ffffff'}
-                    highlightColor={'#d8d8d8'}
+                    wrapperColor={'#a7afb3'}
+                    highlightColor={'#676b6d'}
+                    highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
                             <View>
-                                <Text>{data}</Text>
+                                <Text style={styles.picker}>{data}</Text>
                             </View>
                         )
                     }}
@@ -170,6 +175,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16
     },
+    picker: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 18
+    }
 
 
 })

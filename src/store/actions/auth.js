@@ -10,7 +10,7 @@ export const SET_USERMEAL = 'SET_USERMEAL'
 export const SET_INGREDIENTS = 'SET_INGREDIENTS'
 export const ADD_INGREDIENT =  'ADD_INGREDIENT'
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT'
-
+export const LOGOUT = "LOGOUT"
 
 
 
@@ -73,6 +73,12 @@ export const signup = (email, password, name, gender, age, weight, userHeight) =
       dispatch(authenticate(user.uid, idToken))
       saveDataToStorage(idToken, user.uid, user.displayName)
     }
+  }
+
+  export const logout = () => {
+
+    
+    return { type: LOGOUT }
   }
 
 

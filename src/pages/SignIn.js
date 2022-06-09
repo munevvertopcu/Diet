@@ -264,12 +264,6 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection: 'column',
   },
- 
-  headerText:{
-    fontSize: 30,
-    color: "white",
-    fontWeight: 'bold',
-  },
   inputcontainer:{
     flexDirection: 'row',
    // alignItems: 'flex-end',

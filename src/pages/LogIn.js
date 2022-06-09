@@ -1,11 +1,9 @@
 import React, { useState, useReducer, useCallback, useEffect, useRef } from 'react'
-import { Platform, ScrollView, View, TextInput, Keyboard, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Text, Button, ActivityIndicator, Alert, Dimensions } from 'react-native'
+import { Platform, ScrollView, View, StyleSheet, KeyboardAvoidingView, TouchableOpacity, Text, ActivityIndicator, Alert, Dimensions } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { login } from '../store/actions/auth'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import * as Animatable from 'react-native-animatable';
-import auth from '@react-native-firebase/auth';
-import UserInput  from '../components/UserInput'
+import UserInput from '../components/UserInput'
 
 
 
@@ -14,28 +12,28 @@ const behavior = Platform.OS == 'android' ? "height" : "padding"
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
-const {width,height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 const formReducer = (state, action) => {
-  
+
   if (action.type === FORM_INPUT_UPDATE) {
-    
+
     const updatedValues = {
       ...state.inputValues,
       [action.input]: action.value
     };
-    
+
     const updatedValidities = {
       ...state.inputValidities,
       [action.input]: action.isValid
     };
     let updatedFormIsValid = true;
-    
+
     for (const key in updatedValidities) {
-      
+
       updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
     }
-    
+
     return {
       formIsValid: updatedFormIsValid,
       inputValidities: updatedValidities,
@@ -45,47 +43,45 @@ const formReducer = (state, action) => {
   return state;
 };
 
-const LoginScreen = (props) => {
+const LogIn = (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState()
- 
+
   const imageRef = useRef(null);
 
   const dispatch = useDispatch()
- 
+
   const [formState, dispatchFormState] = useReducer(formReducer, {
-   inputValues: {
-    email: '',
-    password: ''
-   },
-   inputValidities: {
-     email: false,
-     password: false
-   },
-   formIsValid: false
+    inputValues: {
+      email: '',
+      password: ''
+    },
+    inputValidities: {
+      email: false,
+      password: false
+    },
+    formIsValid: false
   });
 
   const authHandler = async () => {
-     let action = login(
-        formState.inputValues.email,
-        formState.inputValues.password
-      );
+    let action = login(
+      formState.inputValues.email,
+      formState.inputValues.password
+    );
 
     setError(null)
     setIsLoading(true)
-    try{
-     await dispatch(action);
+    try {
+      await dispatch(action);
 
-     props.navigation.navigate("Sayfa")
-   } catch (err){
-     setError(err.message)
-     setIsLoading(false)
-   }
+      props.navigation.navigate("Sayfa")
+    } catch (err) {
+      setError(err.message)
+      setIsLoading(false)
+    }
   };
 
-  
 
-  
   const inputChangeHandler = useCallback(
     (inputIdentifier, inputValue, inputValidity) => {
       dispatchFormState({
@@ -99,29 +95,25 @@ const LoginScreen = (props) => {
   );
 
   useEffect(() => {
-    if(error){
-      Alert.alert('An error occured', error, [{text: 'Okay'}])
+    if (error) {
+      Alert.alert('An error occured', error, [{ text: 'Okay' }])
     }
   }, [error])
 
-  return(
+  return (
     <KeyboardAvoidingView
       behavior={behavior}
       keyboardVerticalOffset={-200}
       style={styles.screen}>
-      
-      <View style={{flex:1, justifyContent: 'flex-end'}}>
-       
 
-        <View
-          // useNativeDriver={true}
-
-          style={styles.buttonWrapper}>
-          <ScrollView style={styles.form}>
+      <View
+        style={styles.buttonWrapper}>
+        <Text style={styles.headerText}>Create Account</Text>
+        <ScrollView style={styles.form}>
           <Text style={styles.inputTitle}>Email</Text>
           <View style={styles.inputcontainer}>
             <View style={styles.iconcont}>
-              <MaterialIcons name="person-outline" size={30} color="#093170"/>
+              <MaterialIcons name="person-outline" size={30} color="#093170" />
             </View>
             <UserInput
               id="email"
@@ -137,7 +129,7 @@ const LoginScreen = (props) => {
             />
           </View>
 
-          <View style={{height: height / 25}}></View>
+          <View style={{ height: height / 25 }}></View>
 
           <View style={styles.cont}>
             <View style={styles.titlecont}>
@@ -145,48 +137,47 @@ const LoginScreen = (props) => {
             </View>
             <View style={styles.inputcontainer}>
               <View style={styles.iconcont}>
-                <MaterialIcons name="lock-outline" size={30} color="#093170"/>
+                <MaterialIcons name="lock-outline" size={30} color="#093170" />
               </View>
-                <UserInput
-                  id="password"
-                  placeholder='Your password'
-                  keyboardType="default"
-                  secureTextEntry
-                  required
-                  minLength={5}
-                  autoCapitalize="none"
-                  errorText="plase enter valid password"
-                  onInputChange={inputChangeHandler}
-                  initialValue=""
-                />
+              <UserInput
+                id="password"
+                placeholder='Your password'
+                keyboardType="default"
+                secureTextEntry
+                required
+                minLength={5}
+                autoCapitalize="none"
+                errorText="plase enter valid password"
+                onInputChange={inputChangeHandler}
+                initialValue=""
+              />
             </View>
           </View>
           <View style={styles.buttonContainerTop}>
             {isLoading ? (
               <TouchableOpacity
                 onPress={authHandler}
-                style={{...styles.button, backgroundColor: "#00fa9a", flexDirection: 'row', justifyContent: 'center'}}>
-                <ActivityIndicator size="small" color="black"/>
+                style={{ ...styles.button, backgroundColor: "#00fa9a", flexDirection: 'row', justifyContent: 'center' }}>
+                <ActivityIndicator size="small" color="black" />
               </TouchableOpacity>
             )
-            : (
-            <TouchableOpacity
-              onPress={authHandler}
-              style={{...styles.button, backgroundColor: "#00fa9a", flexDirection: 'row', justifyContent: 'center'}}>
-              <Text style={{fontSize: 20, fontWeight: 'bold', color: '#000'}}>Log in</Text>
-              <MaterialIcons name="navigate-next" size={26} color="#000"/>
-            </TouchableOpacity>
-            )}
+              : (
+                <TouchableOpacity
+                  onPress={authHandler}
+                  style={{ ...styles.button, backgroundColor: "#00fa9a", flexDirection: 'row', justifyContent: 'center' }}>
+                  <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>Log in</Text>
+                  <MaterialIcons name="navigate-next" size={26} color="#000" />
+                </TouchableOpacity>
+              )}
           </View>
-          <View style={{height: height / 50}}></View>
-         
+          <View style={{ height: height / 50 }}></View>
 
-          
-          
+
+
+
         </ScrollView>
-        </View>
       </View>
-     </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -196,61 +187,65 @@ const styles = StyleSheet.create({
   screen: {
     height: '100%'
   },
-  arrowWrap:{
+  arrowWrap: {
     top: height / 20,
-    flex:1,
+    flex: 1,
   },
-  header:{
-  marginBottom: height / 13,
-  paddingHorizontal: 15,
-},
-headerText:{
-  fontSize: 30,
-  color: "white",
-  fontWeight: 'bold',
-},
-  cont:{
-    flex:1,
+  header: {
+    marginBottom: height / 13,
+    paddingHorizontal: 15,
+  },
+  headerText: {
+    color: 'black',
+    marginTop: 20,
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  cont: {
+    flex: 1,
     flexDirection: 'column',
   },
-  inputcontainer:{
+  inputcontainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
-  inputTitle:{
+  inputTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#093170',
     top: 15
   },
-  button:{
+  button: {
     backgroundColor: 'white',
     height: 60,
     marginHorizontal: 20,
     borderRadius: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 45
+    marginTop: 60
   },
-  buttonWrapper:{
-  height: height / 1.4,
-  justifyContent: 'center',
-  backgroundColor: 'white',
-  borderTopLeftRadius: 30,
-  borderTopRightRadius: 30,
-  opacity: 1,
-  paddingVertical: 35,
-  paddingHorizontal: 20
-},
+  buttonWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    opacity: 1,
+    paddingVertical: 35,
+    paddingHorizontal: 20
+  },
   input: {
-   width: '100%',
-   height: 40,
-   fontSize: 18,
-   textAlign: 'left',
-   borderColor: '#d9d9d9',
-   borderBottomWidth: 1,
-   color:"black"
+    width: '100%',
+    height: 40,
+    fontSize: 18,
+    textAlign: 'left',
+    borderColor: '#d9d9d9',
+    borderBottomWidth: 1,
+    color: "black"
   },
+
 })
 
-export default LoginScreen
+export default LogIn

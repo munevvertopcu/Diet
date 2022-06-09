@@ -10,16 +10,17 @@ import { SET_USERMEAL } from './actions/auth'
 import { SET_INGREDIENTS } from './actions/auth'
 import { ADD_INGREDIENT } from './actions/auth'
 import { DELETE_INGREDIENT } from './actions/auth'
+import { LOGOUT } from './actions/auth'
 
 
 const initialState = {
-    selectedWeightBaseIndex: 0,
+    selectedWeightBaseIndex: 25,
     selectedWeightFloatingIndex: 0,
     weight: 0,
-    selectedHeightBaseIndex: 0,
+    selectedHeightBaseIndex: 30,
     selectedHeightFloatingIndex: 0,
     height: 0,
-    selectedGoalWeightBaseIndex: 0,
+    selectedGoalWeightBaseIndex: 25,
     selectedGoalWeightFloatingIndex: 0,
     goalWeight: 0,
     selectedGender: null,
@@ -129,6 +130,9 @@ function reducers(state = initialState, action) {
         }
         case AUTHENTICATE: {
             return { ...state, token: action.token, userId: action.userId }
+        }
+        case LOGOUT: {
+            return {...state}
         }
         case SET_INGREDIENTS: {
 
