@@ -63,6 +63,18 @@ export const signup = (email, password, name, gender, age, weight, userHeight) =
     }))
   }
 
+  export const login = (email, password) => {
+    return async dispatch => {
+      const response = await auth().signInWithEmailAndPassword(email, password)
+  
+      const user = await auth().currentUser;
+      const idToken = await user.getIdToken()
+  
+      dispatch(authenticate(user.uid, idToken))
+      saveDataToStorage(idToken, user.uid, user.displayName)
+    }
+  }
+
 
 
   export const fetchIngredients = () => {

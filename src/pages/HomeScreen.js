@@ -6,11 +6,9 @@
 //Importing the react native and react components
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { ScrollView, View, Animated, StyleSheet, TouchableOpacity, Text, ActivityIndicator, Image, Dimensions } from 'react-native'
-// import { fetchUserData } from '../store/actions/auth'
-// import { fetchIngredients } from '../store/actions/nutrition'
-// import { fetchUserMeals } from '../store/actions/nutrition'
+import { fetchIngredients } from '../store/actions/auth';
+import { fetchUserMeals } from '../store/actions/auth';
  import { useDispatch, useSelector } from 'react-redux';
-// import COLORS from '../constants/Colors'
 import Calendar from '../components/Calendar'
 import Carousel from '../components/Carousel'
 import UserMealButton from '../components/UserMealButton'
@@ -37,14 +35,14 @@ const AnimatedText = Animated.createAnimatedComponent(Text)
 
 //Defining HomeScreen functional component
 const HomeScreen = (props) => {
-  
+  const dispatch = useDispatch()
 
   const [isLoading, setIsLoading] = useState(false)
   const [toggleDrop, setToggleDrop] = useState(false)
   const [dateShown, setDateShown] = useState('Today')
   const [animation, setAnimation] = useState("slideInDown")
 
-  const calorySuggestion = useSelector(state => state.dailyCals)
+  const calorySuggestion = useSelector(state => state.calorySuggestion)
 
   const scrollY = useRef(new Animated.Value(0)).current;
   //const fade = useRef(new Animated.Value(0)).current;
@@ -79,17 +77,50 @@ const HomeScreen = (props) => {
     extrapolate: 'clamp',
   });
 
-  //const userNutrients = useSelector(state => state.nutrition.nutritientSuggestions)
+ // const calorySuggestion = useSelector(state => state.nutrition.calorySuggestion)
+  const caloryRef = useSelector(state => state.caloryRef)
+  const nutrients = useSelector(state => state.nutrients)
+  const todayMeal = useSelector(state => state.todayMeal)
+  const weekSummary = useSelector(state => state.weekSummary)
+  const carbDaily = useSelector(state => state.dailyCarb)
+  const proteinDaily = useSelector(state => state.dailyProtein)
+  const fatDaily = useSelector(state => state.dailyFat)
 
+  const percent1 = 1 - (calorySuggestion / caloryRef)
+  const percent = Math.round(percent1 * 100)
 
-  // const percent1 = 1 
-  // const percent = Math.round(percent1 * 100)
+  const proteinPercent = nutrients.protein / proteinDaily
+  const fatPercent = nutrients.fat / fatDaily
+  const carbsPercent = nutrients.carbs / carbDaily
 
-  // const proteinPercent = nutrients.protein / nutrients.total
-  // const fatPercent = nutrients.fat / nutrients.total
-  // const carbsPercent = nutrients.carbs / nutrients.total
+  const proteinPercent2 = 0 / 0
+  const fatPercent2 = 0 / 0
+  const carbsPercent2 = 0 / 0
 
-  //Creating a function which will run on start of app
+  const loadIngredients= useCallback(async () => {
+    try {
+      //We call the Redux function which get the preferences
+      await dispatch(fetchIngredients())
+    } catch (err) {
+    
+    }
+    }, [dispatch])
+
+    const loaduserNutrients= useCallback(async () => {
+      try {
+        //We call the Redux function which get the preferences
+        await dispatch(fetchUserMeals())
+      } catch (err) {
+      
+      }
+      }, [dispatch])
+
+      const getData = async() => {
+        setIsLoading(true)
+        await loadIngredients()
+        await loaduserNutrients()
+        setIsLoading(false)
+      }
   
   const handleSelectDate = async (date) => {
     const filtered = date.toString().split(" ")
@@ -116,6 +147,12 @@ const HomeScreen = (props) => {
     setToggleDrop(false)
   }
 
+  useEffect(() => {
+    getData()
+    
+  }, [dispatch])
+
+  console.log(todayMeal)
   //Returning the JSX code
   return(
     <View style={styles.container}>
@@ -178,7 +215,7 @@ const HomeScreen = (props) => {
           <View style={styles.progressWrap}>
             <AnimatedCircle
                 useNativeDriver={true}
-                //percent={percent}
+                percent={percent}
                 radius={height / 10}
                 borderWidth={7}
                 color='tomato'
@@ -206,23 +243,26 @@ const HomeScreen = (props) => {
             <View style={styles.nutrientWrap}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.nutritionText}>Protein</Text>
-                <Text style={styles.nutritionText2}>g g</Text>
+                <Text style={styles.nutritionText2}>{nutrients.protein}g / {proteinDaily}g</Text>
               </View>
-              <ProgressBar progress={30} style={styles.progressBar} color='blue'/>
+              {!nutrients.protein ? <ProgressBar progress={30} style={styles.progressBar} color='yellow'/> :
+              <ProgressBar progress={proteinPercent} style={styles.progressBar} color='yellow'/>}
             </View>
             <View style={styles.nutrientWrap}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.nutritionText}>Fat</Text>
-                <Text style={styles.nutritionText2}>g</Text>
+                <Text style={styles.nutritionText2}>{nutrients.fat}g / {fatDaily}g</Text>
               </View>
-              <ProgressBar progress={30} style={styles.progressBar} color='blue' />
+              {!nutrients.fat ? <ProgressBar progress={30} style={styles.progressBar} color='yellow'/> :
+              <ProgressBar progress={fatPercent} style={styles.progressBar} color='yellow'/>}
             </View>
             <View style={styles.nutrientWrap}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.nutritionText}>Carbs</Text>
-                <Text style={styles.nutritionText2}>g</Text>
+                <Text style={styles.nutritionText2}>{nutrients.carbs}g / {carbDaily}g</Text>
               </View>
-              <ProgressBar progress={30} style={styles.progressBar} color='blue' />
+              {!nutrients.carbs ? <ProgressBar progress={30} style={styles.progressBar} color='yellow'/> :
+              <ProgressBar progress={carbsPercent} style={styles.progressBar} color='yellow'/>}
             </View>
             <TouchableOpacity
               onPress={() => {
@@ -258,7 +298,11 @@ const HomeScreen = (props) => {
               <View>
                 <Text style={styles.cardTitle}>Breakfast</Text>
                 
-                  <Text style={styles.cardDesc}> kcals</Text>
+                {todayMeal.Breakfast == undefined ? (
+                  <Text style={styles.cardDesc}>0 kcals</Text>
+                ) : (
+                  <Text style={styles.cardDesc}>{todayMeal.Breakfast} kcals</Text>
+                )}
                 
               </View>
             </TouchableOpacity>
@@ -268,7 +312,11 @@ const HomeScreen = (props) => {
               <View>
                 <Text style={styles.cardTitle}>Lunch</Text>
                
+                {todayMeal.Lunch == undefined ? (
                   <Text style={styles.cardDesc}>0 kcals</Text>
+                ) : (
+                  <Text style={styles.cardDesc}>{todayMeal.Lunch} kcals</Text>
+                )}
                
               </View>
             </TouchableOpacity>
@@ -278,7 +326,11 @@ const HomeScreen = (props) => {
               <View>
                 <Text style={styles.cardTitle}>Dinner</Text>
                 
-                  <Text style={styles.cardDesc}> kcals</Text>
+                {todayMeal.Dinner == undefined ? (
+                  <Text style={styles.cardDesc}>0 kcals</Text>
+                ) : (
+                  <Text style={styles.cardDesc}>{todayMeal.Dinner} kcals</Text>
+                )}
                 
               </View>
             </TouchableOpacity>
@@ -288,13 +340,18 @@ const HomeScreen = (props) => {
             </View>
             <View style={{}}>
               
+            {weekSummary.length == 0 ? (
+                <Text>No weekly meals found</Text>
+                /* <ActivityIndicator size="small" color={COLORS.primaryColor}></ActivityIndicator> */
+              ) : (
                 <Carousel
                   style={{zIndex: 30000, position: 'absolute', backgroundColor: 'red'}}
-                  cals={' kcals'}
-                  carbs={' g'}
-                  protein={' g'}
-                  fat={' g'}
+                  cals={(weekSummary[0].cals).toString() + ' kcals'}
+                  carbs={(weekSummary[0].carbs).toString() + ' g'}
+                  protein={(weekSummary[0].protein).toString() + ' g'}
+                  fat={(weekSummary[0].fat).toString() + ' g'}
                 />
+              )}
               
             </View>
 

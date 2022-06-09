@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import _ from "lodash";
+import moment from "moment";
 
 import { AUTHENTICATE } from './actions/auth';
 
@@ -25,6 +26,10 @@ const initialState = {
     selectedTargetWeight: null,
     inputAge: 0,
     dailyCals: 0,
+    dailyCarb: 0,
+    dailyProtein: 0,
+    dailyFat: 0,
+   
 
     token: null,
     userId: null,
@@ -105,7 +110,22 @@ function reducers(state = initialState, action) {
         case 'UPDATE-DAILY-CALORIE': {
             const data = _.cloneDeep(action.payload);
             const incomingDailyCalorie = _.cloneDeep(data.dailyCals);
-            return { ...state, dailyCals: incomingDailyCalorie };
+            return { ...state, dailyCals: incomingDailyCalorie, calorySuggestion: incomingDailyCalorie };
+        }
+        case 'UPDATE-DAILY-CARBONHYDRATE': {
+            const data = _.cloneDeep(action.payload);
+            const incomingDailyCarb = _.cloneDeep(data.dailyCarb);
+            return { ...state, dailyCarb: incomingDailyCarb };
+        }
+        case 'UPDATE-DAILY-PROTEIN': {
+            const data = _.cloneDeep(action.payload);
+            const incomingDailyProtein = _.cloneDeep(data.dailyProtein);
+            return { ...state, dailyProtein: incomingDailyProtein};
+        }
+        case 'UPDATE-DAILY-FAT': {
+            const data = _.cloneDeep(action.payload);
+            const incomingDailyFat = _.cloneDeep(data.dailyFat);
+            return { ...state, dailyFat: incomingDailyFat};
         }
         case AUTHENTICATE: {
             return { ...state, token: action.token, userId: action.userId }
@@ -146,7 +166,7 @@ function reducers(state = initialState, action) {
 
            
 
-            refCals = 3865
+            refCals = state.dailyCals
 
 
             let now = moment();
@@ -161,7 +181,7 @@ function reducers(state = initialState, action) {
                 let monthLetter;
                 let dayLetter;
                 if (newMonth.toString().length < 2) {
-                    monthLetter = `0${monthPlus}`
+                    monthLetter = `0${timestamp.month.toString()}`
                 }
                 else {
                     monthLetter = newMonth.toString()
@@ -172,40 +192,40 @@ function reducers(state = initialState, action) {
                     dayLetter = timestamp.day.toString()
                 }
 
-                let dateString = `${timestamp.year}-${monthLetter}-${dayLetter}`
+               
 
-                if (now.isoWeek() == moment(dateString).isoWeek()) {
+               
                     for (var ingredient = 0; ingredient < ingredientList.length; ingredient++) {
                         //do one read operation from array per round
                         const item = ingredientList[ingredient]
 
-                        const weeklyCalories = item.energi2.split(/[=}]/)[2]
-                        const weeklyFat = item.fat.split(/[=}]/)[2]
-                        const weeklyCarbs = item.carbs.split(/[=}]/)[2]
-                        const weeklyProtein = item.protein.split(/[=}]/)[2]
+                        const weeklyCalories = item.kcal
+                        const weeklyFat = item.fat
+                        const weeklyCarbs = item.carb
+                        const weeklyProtein = item.protein
                         weekCals += parseInt(weeklyCalories)
                         weekFat += parseInt(weeklyFat)
                         weekCarbs += parseInt(weeklyCarbs)
                         weekProtein += parseInt(weeklyProtein)
                     }
-                }
+                
 
                 if (timestamp.day == action.day && timestamp.month == action.month && timestamp.year == action.year) {
                     for (var ingredient = 0; ingredient < ingredientList.length; ingredient++) {
                         //do one read operation from array per round
                         const item = ingredientList[ingredient]
 
-                        const calories = item.energi2.split(/[=}]/)[2]
-                        const fat = item.fat.split(/[=}]/)[2]
-                        const carbs = item.carbs.split(/[=}]/)[2]
-                        const protein = item.protein.split(/[=}]/)[2]
+                        const calories = item.kcal
+                        const fat = item.fat
+                        const carbs = item.carb
+                        const protein = item.protein
                         cals += parseInt(calories)
                         nutrientsTotal = nutrientsTotal + parseInt(fat) + parseInt(carbs) + parseInt(protein)
                         fatTotal += parseInt(fat)
                         carbsTotal += parseInt(carbs)
                         proteinTotal += parseInt(protein)
 
-                        mealsOfDay[meals[meal].mealType] = parseInt(calories)
+                        mealsOfDay[meals[meal].mealType] = parseInt(cals)
                     }
                 }
             }

@@ -3,7 +3,7 @@ import React from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, TouchableHighlight, Animated } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import UserMealList from './UserMealList'
 
  const breakfast = require('../../assets/breakfast.png')
 const lunch = require('../../assets/lunchbox.png')
@@ -21,18 +21,17 @@ export default class UserMealButton extends React.Component {
       };
   }
 
-//   handlePress = () => {
-//     // Some feedback when pressing the button
-//     const feedback = Haptics.ImpactFeedbackStyle.Medium
-//     Haptics.impactAsync(feedback)
-//     Animated.sequence([
-//         Animated.timing(this.mode, {
-//             toValue: this.mode._value === 0 ? 1 : 0,
-//             useNativeDriver: false,
-//             duration: 100
-//         }),
-//     ]).start();
-//   };
+  handlePress = () => {
+    // Some feedback when pressing the button
+    
+    Animated.sequence([
+        Animated.timing(this.mode, {
+            toValue: this.mode._value === 0 ? 1 : 0,
+            useNativeDriver: false,
+            duration: 100
+        }),
+    ]).start();
+  };
 
   render(){
 
@@ -84,7 +83,7 @@ export default class UserMealButton extends React.Component {
           style={[styles.modal, {top: modalY, height: heightModal, width: widthModal, opacity: modalOpacity}]}>
 
           <View style={styles.rowWrap}>
-           
+          <UserMealList />
           </View>
 
         </Animated.View>
@@ -96,7 +95,7 @@ export default class UserMealButton extends React.Component {
 
           <TouchableOpacity
             activeOpacity={.9}
-            onPress={() => null}
+            onPress={this.handlePress}
             style={{width: "100%", height: '100%', justifyContent: 'center', alignItems: 'center'}}
             underlayColor="transparent">
 

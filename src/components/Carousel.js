@@ -16,10 +16,10 @@ const CarouselComponent = (props) => {
   const carouselRef = useRef()
 
   const data = [
-    {text: props.cals, type: 'cals', pic: caloryPic},
-    {text: props.carbs, type: 'carbs', pic: carbPic},
-    {text: props.protein, type: 'protein', pic: proteinPic},
-    {text: props.fat, type: 'fat', pic: fatPic},
+    {text: props.cals,  pic: caloryPic},
+    {text: props.carbs,  pic: carbPic},
+    {text: props.protein,  pic: proteinPic},
+    {text: props.fat,  pic: fatPic},
   ]
 
   const renderCarousel = (itemData) => {

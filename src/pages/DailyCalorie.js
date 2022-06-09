@@ -4,16 +4,15 @@ import { connect } from 'react-redux';
 import CommonButton from '../components/CommonButton';
 import { ProgressBar } from 'react-native-paper';
 import { calculateTargetDate } from '../helpers';
-import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
+
 
 
 function DailyCalorie(props) {
 
     const [dailyCalorie, setDailyCalorie] = React.useState(props.dailyCals);
-    const [carbonhydrate, setCarbonhydrate] = React.useState();
-    const [protein, setProtein] = React.useState();
-    const [fat, setFat] = React.useState();
+    const [carbonhydrate, setCarbonhydrate] = React.useState(props.dailyCarb);
+    const [protein, setProtein] = React.useState(props.dailyProtein);
+    const [fat, setFat] = React.useState(props.dailyFat);
 
 
     
@@ -22,6 +21,9 @@ function DailyCalorie(props) {
 
     React.useEffect(() => {
         setDailyCalorie(props.dailyCals);
+        setCarbonhydrate(props.dailyCarb);
+        setProtein(props.dailyProtein);
+        setFat(props.dailyFat);
     })
 
 
@@ -61,12 +63,12 @@ function DailyCalorie(props) {
     }, []);
 
     React.useEffect(() => {
-    let carb = (dailyCalorie * 0.5) / 4 ;
-    setCarbonhydrate(parseInt(carb));
-    let fat = (dailyCalorie * 0.3) / 9 ;
-    setFat(parseInt(fat));
     let protein = (dailyCalorie * 0.2) / 4 ;
-    setProtein(parseInt(protein));
+    props.updateDailyProtein(parseInt(protein));
+    let fat = (dailyCalorie * 0.3) / 9 ;
+    props.updateDailyFat(parseInt(fat));
+    let carb = (dailyCalorie * 0.5) / 4 ;
+    props.updateDailyCarb(parseInt(carb));
 
     },[dailyCalorie])
 
@@ -161,7 +163,10 @@ function mapStateToProps(state) {
         selectedGender: state.selectedGender,
         selectedTargetWeight: state.selectedTargetWeight,
         inputAge: state.inputAge,
-        dailyCals: state.dailyCals
+        dailyCals: state.dailyCals,
+        dailyCarb: state.dailyCarb,
+        dailyProtein: state.dailyProtein,
+        dailyFat: state.dailyFat
     }
 }
 function mapDispatchToProps(dispatch) {
@@ -169,6 +174,21 @@ function mapDispatchToProps(dispatch) {
         updateDailyCalorie: (param) => dispatch({
             type: 'UPDATE-DAILY-CALORIE', payload: {
                 dailyCals: param,
+            }
+        }),
+        updateDailyCarb: (param) => dispatch({
+            type: 'UPDATE-DAILY-CARBONHYDRATE', payload: {
+                dailyCarb: param,
+            }
+        }),
+        updateDailyProtein: (param) => dispatch({
+            type: 'UPDATE-DAILY-PROTEIN', payload: {
+                dailyProtein: param,
+            }
+        }),
+        updateDailyFat: (param) => dispatch({
+            type: 'UPDATE-DAILY-FAT', payload: {
+                dailyFat: param,
             }
         }),
     }
