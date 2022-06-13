@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     inner_container: {
-        backgroundColor: '#141414',
+        backgroundColor: '#faa14c',
         width: 130,
         alignItems: 'center',
         padding: 7,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
     },
     text: {
-        color: '#fffafa',
+        color: '#fff',
         fontSize: 18
     }
 })

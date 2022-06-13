@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import Header from "../components/Header";
 import CommonButton from "../components/CommonButton";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 function StartPlan(props) {
@@ -10,7 +11,8 @@ function StartPlan(props) {
             <View style={styles.innerContainer}>
                 <Header text1='Happier' text2='Healthier' />
                 <View style={styles.imageView}>
-                    <ImageBackground source={require('../../assets/apple.png')} style={styles.image} />
+                    <ImageBackground source={require('../../assets/orange.jpg')} style={styles.image} />
+                    {/* <MaterialCommunityIcons name="food-apple" size={180} color="tomato"/> */}
                 </View>
                 <Header text1='Balanced' text2='Energized' />
 
@@ -27,30 +29,31 @@ function StartPlan(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black',
+        backgroundColor: '#fff',
         justifyContent: 'space-between',
     },
     innerContainer: {
-        marginTop: 70
+        marginTop: 60
     },
     imageView: {
         alignItems: 'center',
     },
     image: {
-        width: 200,
+        width: 250,
         height: 200,
     },
     text: {
-        color: '#fffafa',
+        color: '#fa7f0b',
         fontSize: 17,
         textAlign: 'center',
         marginBottom: 40
     },
     header_text: {
         fontSize: 22,
-        color: '#fffafa',
+        color: '#fa7f0b',
         marginBottom: 15,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: 'bold'
     },
 }
 );

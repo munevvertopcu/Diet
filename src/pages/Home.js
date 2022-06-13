@@ -4,7 +4,7 @@ import { BottomSheet } from 'react-native-btr';
 import CommonButton from '../components/CommonButton';
 
 
-const image = { uri: "http://www.londonesthetic.com/wp-content/uploads/2018/03/slider-2-1.jpg" };
+const image = { uri: "https://s3.envato.com/files/327145313/keto%20019.jpg" };
 
 
 
@@ -68,14 +68,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     header: {
-        color: '#00fa9a',
+        color: '#fa7f0b',
         fontWeight: 'bold',
         fontSize: 40,
         fontStyle: 'italic'
     },
     headerView: {
         alignItems: 'center',
-        marginTop: 40
+        marginTop: 75
     },
     text: {
         color: '#fffafa',

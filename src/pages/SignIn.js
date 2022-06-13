@@ -228,16 +228,16 @@ const inputChangeHandler = useCallback(
             {isLoading ? (
               <TouchableOpacity
                 onPress={authHandler}
-                style={{...styles.button, backgroundColor: "#00fa9a", flexDirection: 'row', justifyContent: 'center'}}>
+                style={{...styles.button, backgroundColor: "#fa7f0b", flexDirection: 'row', justifyContent: 'center'}}>
                 <ActivityIndicator size="small" color="white"/>
               </TouchableOpacity>
             )
             : (
             <TouchableOpacity
               onPress={authHandler}
-              style={{...styles.button, backgroundColor: "#00fa9a", flexDirection: 'row', justifyContent: 'center'}}>
-              <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>Sign up</Text>
-              <MaterialIcons name="navigate-next" size={26} color="black"/>
+              style={{...styles.button, backgroundColor: "#fa7f0b", flexDirection: 'row', justifyContent: 'center'}}>
+              <Text style={{fontSize: 20, fontWeight: 'bold', color: '#fff'}}>Sign up</Text>
+              <MaterialIcons name="navigate-next" size={26} color="#fff"/>
             </TouchableOpacity>
             )}
           </View>

@@ -55,7 +55,7 @@ function SelectHeight(props) {
                 <Text style={styles.text}>Thanks, you're doing great!</Text>
                 <Text style={styles.textHeader}>What's your height?</Text>
             </View>
-            <View style={{ flexDirection: 'row', borderWidth: 2, borderRadius: 7, marginHorizontal: 8, borderColor :'#676b6d' }}>
+            <View style={{ flexDirection: 'row', borderWidth: 2, borderRadius: 7, marginHorizontal: 8, borderColor :'#faa14c' }}>
                 <ScrollPicker
                     ref={(sp) => { sp = sp }}
 
@@ -63,8 +63,8 @@ function SelectHeight(props) {
                     selectedIndex={selectedBaseIndex}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor='#a7afb3'
-                    highlightColor={'#676b6d'}
+                    wrapperColor='#faa14c'
+                    highlightColor={'#fff'}
                     highlightBorderWidth={2}
                     
                     renderItem={(data, index, isSelected) => {
@@ -88,8 +88,8 @@ function SelectHeight(props) {
                     itemHeight={50}
                     wrapperHeight={250}
                     
-                    wrapperColor={'#a7afb3'}
-                    highlightColor={'#676b6d'}
+                    wrapperColor={'#faa14c'}
+                    highlightColor={'#fff'}
                     highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
@@ -107,8 +107,8 @@ function SelectHeight(props) {
                     selectedIndex={selectedFloatingIndex}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor={'#a7afb3'}
-                    highlightColor={'#676b6d'}
+                    wrapperColor={'#faa14c'}
+                    highlightColor={'#fff'}
                     highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
@@ -129,17 +129,17 @@ function SelectHeight(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
         flex: 1,
         justifyContent: 'space-between',
     },
     text: {
-        color: 'black',
+        color: '#762639',
         marginBottom: 15
     },
     textHeader: {
         fontSize: 25,
-        color: 'black',
+        color: '#762639',
     },
     textView: {
         alignItems: 'center',

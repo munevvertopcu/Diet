@@ -91,7 +91,7 @@ export default class UserMealButton extends React.Component {
 
         <Animated.View
           useNativeDriver={true}
-          style={[styles.button, {backgroundColor: 'red'}]}>
+          style={[styles.button, {backgroundColor: '#c0d401'}]}>
 
           <TouchableOpacity
             activeOpacity={.9}
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   modal: {
     position: "absolute",
     justifyContent: 'flex-start',
-    backgroundColor: 'rgba(58,90,140,.96)',
+    backgroundColor: '#d53d00',
     elevation: 3,
     right:0,
   }

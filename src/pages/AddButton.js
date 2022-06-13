@@ -135,7 +135,7 @@ export default class AddButton extends React.Component {
 
         <Animated.View
           useNativeDriver={true}
-          style={[styles.button, {backgroundColor: "tomato"}]}>
+          style={[styles.button, {backgroundColor: "#c0d401"}]}>
           <TouchableHighlight
             style={{width: "100%", height: '100%', justifyContent: 'center', alignItems: 'center'}}
             onPress={this.handlePress} underlayColor="transparent">
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 50,
-    height: 50,
+    height: 45,
     borderRadius: 36,
     position: 'absolute',
     zIndex: 1000,
@@ -192,10 +192,11 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOffset: {height:5},
     shadowOpacity: 0.3,
+    
   },
   modal: {
     position: "absolute",
-    backgroundColor: 'rgba(58,90,140,.96)',
+    backgroundColor: '#d53d00',
     elevation: 3,
   }
 })

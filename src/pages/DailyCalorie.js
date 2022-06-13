@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import CommonButton from '../components/CommonButton';
 import { ProgressBar } from 'react-native-paper';
 import { calculateTargetDate } from '../helpers';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
@@ -15,9 +16,9 @@ function DailyCalorie(props) {
     const [fat, setFat] = React.useState(props.dailyFat);
 
 
-    
 
-    
+
+
 
     React.useEffect(() => {
         setDailyCalorie(props.dailyCals);
@@ -63,14 +64,14 @@ function DailyCalorie(props) {
     }, []);
 
     React.useEffect(() => {
-    let protein = (dailyCalorie * 0.2) / 4 ;
-    props.updateDailyProtein(parseInt(protein));
-    let fat = (dailyCalorie * 0.3) / 9 ;
-    props.updateDailyFat(parseInt(fat));
-    let carb = (dailyCalorie * 0.5) / 4 ;
-    props.updateDailyCarb(parseInt(carb));
+        let protein = (dailyCalorie * 0.2) / 4;
+        props.updateDailyProtein(parseInt(protein));
+        let fat = (dailyCalorie * 0.3) / 9;
+        props.updateDailyFat(parseInt(fat));
+        let carb = (dailyCalorie * 0.5) / 4;
+        props.updateDailyCarb(parseInt(carb));
 
-    },[dailyCalorie])
+    }, [dailyCalorie])
 
     console.log(props.selectedGender)
 
@@ -79,19 +80,21 @@ function DailyCalorie(props) {
     return (
         <View style={styles.container}>
             <Text style={styles.headerText}>Your personalized health plan is ready!</Text>
-            <View style={{ flexDirection: "row", justifyContent: 'center' }}>
+            <View style={{marginBottom: 35}}>
+            <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
                 <Text style={styles.weightText}>{props.weight}</Text>
-                <Text style={styles.weightText}>-----</Text>
+                <Ionicons style={{}} color="#fa7f0b" size={40} name="arrow-forward-circle" />
                 <Text style={styles.weightText}>{props.goalWeight}</Text>
-                <Text style={styles.weightText}>{carbonhydrate}</Text>
-                <Text style={styles.weightText}>{protein}</Text>
-                <Text style={styles.weightText}>{fat}</Text>
-
             </View>
-            <Text style={{ textAlign: 'center', color: 'white' }}>
-                Follow your recommendations and you will reach your goal on {calculateTargetDate(props.weight, props.goalWeight)}
-            </Text>
             <View>
+                <Text style={{ textAlign: 'center', color: '#762639', fontWeight: 'bold' }}>
+                    Follow your recommendations and you will reach your goal on
+                </Text>
+                <Text style={{ textAlign: 'center', color: '#762639', fontWeight: 'bold' }}>{calculateTargetDate(props.weight, props.goalWeight)}</Text>
+            </View>
+            </View>
+            <View>
+                <Text style={{color: "#762639", fontWeight:'bold', textAlign: 'center', marginBottom: 18}}>Daily nutritional recommendations</Text>
                 <View style={styles.calTextView}>
                     <Text style={styles.calText}>Calories</Text>
                     <Text style={styles.calText}>{dailyCalorie} kcal</Text>
@@ -120,21 +123,22 @@ function DailyCalorie(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        backgroundColor: '#fff',
         flex: 1,
         justifyContent: 'space-between'
     },
     headerText: {
-        color: 'white',
-        marginTop: 40,
+        color: '#762639',
+        marginTop: 30,
         marginBottom: 20,
         textAlign: 'center',
         fontSize: 25
     },
     weightText: {
-        color: 'white',
-        marginLeft: 10,
-        fontSize: 20
+        color: '#762639',
+        fontSize: 30,
+        marginHorizontal: 15,
+        fontWeight: 'bold'
     },
     progressBar: {
         marginHorizontal: 20,
@@ -150,8 +154,9 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     calText: {
-        color: 'white',
-        fontSize: 15
+        color: '#762639',
+        fontSize: 17,
+        fontWeight: 'bold'
     }
 });
 

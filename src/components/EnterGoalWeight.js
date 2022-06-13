@@ -46,7 +46,7 @@ function EnterGoalWeight(props) {
                 <Text style={styles.text}>Ok, let's continue</Text>
                 <Text style={styles.textHeader}>What's your goal weight?</Text>
             </View>
-            <View style={{ flexDirection: 'row', borderWidth: 2, borderRadius: 7, marginHorizontal: 8, borderColor :'#676b6d' }}>
+            <View style={{ flexDirection: 'row', borderWidth: 2, borderRadius: 7, marginHorizontal: 8, borderColor :'#faa14c' }}>
                 <ScrollPicker
                     ref={(sp) => { sp = sp }}
 
@@ -54,8 +54,8 @@ function EnterGoalWeight(props) {
                     selectedIndex={selectedBaseIndex}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor='#a7afb3'
-                    highlightColor={'#676b6d'}
+                    wrapperColor='#faa14c'
+                    highlightColor={'#fff'}
                     highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
@@ -77,8 +77,8 @@ function EnterGoalWeight(props) {
                     selectedIndex={0}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor='#a7afb3'
-                    highlightColor={'#676b6d'}
+                    wrapperColor='#faa14c'
+                    highlightColor={'#fff'}
                     highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
@@ -96,8 +96,8 @@ function EnterGoalWeight(props) {
                     selectedIndex={selectedFloatingIndex}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor='#a7afb3'
-                    highlightColor={'#676b6d'}
+                    wrapperColor='#faa14c'
+                    highlightColor={'#fff'}
                     highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
@@ -118,17 +118,17 @@ function EnterGoalWeight(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
         flex: 1,
         justifyContent: 'space-between',
     },
     text: {
-        color: 'black',
+        color: '#762639',
         marginBottom: 15
     },
     textHeader: {
         fontSize: 25,
-        color: 'black',
+        color: '#762639',
     },
     textView: {
         alignItems: 'center',

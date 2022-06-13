@@ -135,7 +135,7 @@ export default class ListButton extends React.Component {
 
         <Animated.View
           useNativeDriver={true}
-          style={[styles.button, {backgroundColor: "tomato"}]}>
+          style={[styles.button, {backgroundColor: "#c0d401"}]}>
           <TouchableOpacity
             activeOpacity={.7}
             style={{width: "100%", height: '100%', justifyContent: 'center', alignItems: 'center'}}
@@ -144,13 +144,13 @@ export default class ListButton extends React.Component {
               <Animated.View
                   useNativeDriver={true}
                   style={{ transform: [{ rotate: rotation }], opacity: iconOpacity, position: 'absolute'}}>
-                  <MaterialIcons name="list" size={32} color="#000"/>
+                  <MaterialIcons name="list" size={32} color="#fff"/>
               </Animated.View>
 
               <Animated.View
                   useNativeDriver={true}
                   style={{ transform: [{ rotate: rotation2 }], opacity: iconOpacity2, position: 'absolute'}}>
-                  <MaterialIcons name="close" size={32} color="#000"/>
+                  <MaterialIcons name="close" size={32} color="#fff"/>
               </Animated.View>
 
           </TouchableOpacity>
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   modal: {
     position: "absolute",
     right: -70,
-    backgroundColor: 'rgba(58,90,140,.96)',
+    backgroundColor: '#d53d00',
   },
   icon:{
 
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   },
   doneButton:{
     width: '50%',
-    backgroundColor: "tomato",
+    backgroundColor: "#c0d401",
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 15,
@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
   },
   doneText:{
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#fff'
   }
 })

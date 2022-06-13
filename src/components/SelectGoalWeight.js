@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     text: {
-        color: 'black',
+        color: '#762639',
         marginBottom: 15,
         textAlign: 'center',
         marginHorizontal:20,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     },
     textHeader: {
         fontSize: 25,
-        color: 'black',
+        color: '#762639',
         textAlign: 'center',
         marginHorizontal: 20,
         marginBottom: 20
@@ -79,11 +79,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     itemText: {
-        color: 'black',
-        fontSize: 15
+        color: '#762639',
+        fontSize: 15,
+        fontWeight: 'bold'
     },
     selectedStyle: {
-        borderColor: '#00fa9a',
+        borderColor: '#fa7f0b',
         borderWidth: 3
     },
 })

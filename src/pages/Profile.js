@@ -5,60 +5,127 @@ import { useDispatch, useSelector } from 'react-redux';
 import database from '@react-native-firebase/database';
 import { logout } from '../store/actions/auth'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const {width,height} = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 
 function Profile(props) {
+  const [displayName, setDisplayName] = React.useState(null)
+  const dispatch = useDispatch()
+
+
+
+  const token = useSelector(state => state.token)
+  const age = useSelector(state => state.inputAge)
+  const weight = useSelector(state => state.weight)
+  const userheight = useSelector(state => state.height)
+  const gender = useSelector(state => state.selectedGender)
+
+
+  React.useEffect(() => {
+    const getDisplayName = async () => {
+      const userData = await AsyncStorage.getItem('userData');
+      const transformedData = JSON.parse(userData);
+      const { token, userId, displayName } = transformedData;
+      const displayArray = displayName.split(' ')
+      let firstChar;
+      let secondChar;
+      let displayNameShort;
+      if (displayArray.length < 2) {
+        firstChar = displayArray[0].slice(0, 1)
+        displayNameShort = firstChar.toUpperCase()
+      } else {
+        firstChar = displayArray[0].slice(0, 1)
+        secondChar = displayArray[1].slice(0, 1)
+        displayNameShort = firstChar.toUpperCase() + secondChar.toUpperCase()
+      }
+      setDisplayName(displayNameShort)
+    };
+    getDisplayName()
+  }, [dispatch])
+
+  const deleteHandler = async () => {
+    const user = await auth().currentUser
     
-    const dispatch = useDispatch()
-// const authHandler = async () => {
-//     const user = auth().currentUser;
-// const idToken = await  user.getIdToken();
-//     if (user) {
-
-//         console.log('User email: ', user.email);
-//         console.log('User token: ', idToken);
-   
-//        }
-// }
-
-React.useEffect(() => {
-    database()
-    .ref('foods/')
-    .on('value', snapshot => {
-        const contentData = snapshot.val();
-     console.log(contentData);
-    });
-}, [])
-
-const token = useSelector(state => state.token)
-    
-const fetchIngredients = async () => {
-    const response = await fetch(`https://dietnutrition-ea78c-default-rtdb.firebaseio.com/foods.json`);
-    const resData = await response.json();
-    console.log(resData)
+    database().ref('users').child(user.uid).set(null)
+    database().ref('userMeals').child(user.uid).set(null)
+    dispatch(logout())
+    await user.delete()
+    props.navigation.navigate('Home')
   }
-    
-    
-    
-    
 
-   
-    return (
-        <View>
-            {/* <Text>{user.email}</Text>
-            <Text>{user.uid}</Text> */}
-            <Text>jkkj</Text>
 
-            <Button title="update" onPress={fetchIngredients}/>
 
-            <TouchableOpacity
+  return (
+    <View style={{flex: 1, justifyContent:'space-between'}}>
+      <View>
+      <View style={{ height: height / 3.5, backgroundColor: '#fa9a56', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ width: 100, height: 100, backgroundColor: '#f9b686', borderRadius: 50, alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={{fontSize: 36, fontWeight: 'bold', color: '#ff6800'}}>{displayName}</Text>
+        </View>
+      </View>
+      <View style={{marginLeft: 120 , marginTop: 70}}>
+        <View style={{flexDirection: 'row'}}>
+        <Text style={{fontSize: 25, marginRight: 45}}>Age:</Text>
+        <Text style={{fontSize:25, color: 'black'}}>{age}</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+        <Text style={{fontSize: 25, marginRight: 15}}>Height:</Text>
+        <Text style={{fontSize:25, color: 'black'}}>{userheight} cm</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+        <Text style={{fontSize: 25, marginRight: 15}}>Weight:</Text>
+        <Text style={{fontSize:25, color: 'black'}}>{weight} kg</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{fontSize: 25, marginRight: 15}}>Gender:</Text>
+          {gender == 1 ? <Text style={{fontSize:25, color: 'black'}}>Male</Text > : <Text style={{fontSize:25, color: 'black'}}>Female</Text>}
+        </View>
+      </View>
+</View>
+      
+
+
+<View style={{alignItems: 'center', marginBottom: 30}}>
+      <TouchableOpacity
         onPress={() => {
-          // Asking user if they are sure to log out
           Alert.alert(
-          'Are you sure you want to log out?',
-          '',
+            'Are you sure you want to log out?',
+            '',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel'
+              },
+              {
+                text: 'Yes',
+                onPress: () => {
+                  //If so..
+                  //Dispatch to redux to call logout function
+                  dispatch(logout())
+                  //Navigating to startscreen
+                  props.navigation.navigate('Home')
+                }
+              },
+            ],
+            { cancelable: true }
+          );
+
+        }}
+        style={{ ...styles.Button, backgroundColor: "#f7812e" }}>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>
+          Log Out
+        </Text>
+        <MaterialIcons name="navigate-next" size={26} color="#fff" />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => {
+          Alert.alert(
+          'Are you sure you want to delete your account?',
+          'All data about you will be deleted',
           [
             {
               text: 'Cancel',
@@ -67,44 +134,38 @@ const fetchIngredients = async () => {
             },
             {
               text: 'Yes',
-              onPress: () => {
-                //If so..
-                //Dispatch to redux to call logout function
-                dispatch(logout())
-                //Navigating to startscreen
-                props.navigation.navigate('Home')
-              }
+              onPress: () => deleteHandler()
             },
           ],
           { cancelable: true }
           );
-
         }}
-        style={{...styles.preferencesButton, backgroundColor: "tomato"}}>
-        <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-          Log Out
+        style={{...styles.Button, backgroundColor: '#f7812e'}}>
+        <Text style={{fontSize: 16, fontWeight: 'bold', color: "#fff"}}>
+          Delete Account
         </Text>
-        <MaterialIcons name="navigate-next" size={26} color="#000"/>
+        <MaterialIcons name="navigate-next" size={26} color="#fff"/>
       </TouchableOpacity>
-        </View>
-    )
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-    container:{
-    flex:1,
+  container: {
+    flex: 1,
   },
-  backgroundTop:{
+  backgroundTop: {
     height: height / 3
   },
-  preferences:{
+  preferences: {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
     width: '100%',
     bottom: 200,
   },
-  modal:{
+  modal: {
     position: 'absolute',
     width: '100%',
     bottom: 0,
@@ -116,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center'
   },
-  modalButton:{
+  modalButton: {
     paddingVertical: 15,
     borderWidth: 1.5,
     width: '90%',
@@ -126,7 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginVertical: 10
   },
-  modalButton2:{
+  modalButton2: {
     paddingVertical: 15,
     borderWidth: 1.5,
     borderRadius: 30,
@@ -136,34 +197,35 @@ const styles = StyleSheet.create({
     borderColor: "#e56767",
     marginHorizontal: 5
   },
-  preferencesButton:{
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: "tomato",
-      padding: 16,
-      width: '80%',
-      flexDirection: 'row',
-      borderRadius: 30
+  Button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "tomato",
+    padding: 16,
+    width: '80%',
+    flexDirection: 'row',
+    borderRadius: 30,
+    marginBottom:10
   },
-  settingsText:{
+  settingsText: {
     fontSize: 36,
     color: "tomato",
     fontWeight: 'bold',
   },
-  boxWrap:{
+  boxWrap: {
     width: '80%',
     marginVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  textWrap:{
+  textWrap: {
     marginRight: 60
   },
-  boxText:{
+  boxText: {
     fontSize: 24,
     fontWeight: '500',
   },
-  button2:{
+  button2: {
     backgroundColor: "tomato",
     // paddingHorizontal: 40,
     paddingVertical: 15,
@@ -175,10 +237,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     marginVertical: 8
   },
-  buttonText2:{
+  buttonText2: {
     fontSize: 16,
     fontWeight: 'bold'
   },
-  })
+})
 
 export default Profile;

@@ -47,7 +47,7 @@ function SelectCurrentWeight(props) {
                 <Text style={styles.text}>Thanks, you're doing great!</Text>
                 <Text style={styles.textHeader}>What's your current weight?</Text>
             </View>
-            <View style={{ flexDirection: 'row', borderWidth: 2, borderRadius: 7, marginHorizontal: 8, borderColor :'#676b6d' }}>
+            <View style={{ flexDirection: 'row', borderWidth: 2, borderRadius: 7, marginHorizontal: 8, borderColor :'#faa14c' }}>
                 {/* Base Weight */}
                 <ScrollPicker
                     ref={(sp) => { sp = sp }}
@@ -56,8 +56,8 @@ function SelectCurrentWeight(props) {
                     selectedIndex={selectedBaseIndex}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor={'#a7afb3'}
-                    highlightColor={'#676b6d'}
+                    wrapperColor={'#faa14c'}
+                    highlightColor={'#fff'}
                     highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
@@ -80,8 +80,8 @@ function SelectCurrentWeight(props) {
                     selectedIndex={0}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor={'#a7afb3'}
-                    highlightColor={'#676b6d'}
+                    wrapperColor={'#faa14c'}
+                    highlightColor={'#fff'}
                     highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
@@ -100,8 +100,8 @@ function SelectCurrentWeight(props) {
                     selectedIndex={selectedFloatingIndex}
                     itemHeight={50}
                     wrapperHeight={250}
-                    wrapperColor={'#a7afb3'}
-                    highlightColor={'#676b6d'}
+                    wrapperColor={'#faa14c'}
+                    highlightColor={'#fff'}
                     highlightBorderWidth={2}
                     renderItem={(data, index, isSelected) => {
                         return (
@@ -122,17 +122,17 @@ function SelectCurrentWeight(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
         flex: 1,
         justifyContent: 'space-between',
     },
     text: {
-        color: 'black',
+        color: '#762639',
         marginBottom: 15
     },
     textHeader: {
         fontSize: 25,
-        color: 'black',
+        color: '#762639',
     },
     textView: {
         alignItems: 'center',
@@ -148,9 +148,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center'
     },
-    itemText: {
-        color: '#fffafa'
-    },
+    
     selectedStyle: {
         borderColor: '#00fa9a',
         borderWidth: 3

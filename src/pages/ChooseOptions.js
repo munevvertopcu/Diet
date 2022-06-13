@@ -12,33 +12,36 @@ import { connect } from 'react-redux';
 function ChooseOptions(props) {
 
   const progressStepsStyle = {
-    activeStepIconBorderColor: "#00fa9a",
+    activeStepIconBorderColor: "#fcb572",
     activeStepNumColor: "white",
-    activeStepIconColor: "#00fa9a",
-    completedStepIconColor: "#00fa9a",
-    completedProgressBarColor: "#00fa9a",
+    activeStepIconColor: "#fcb572",
+    completedStepIconColor: "#fcb572",
+    completedProgressBarColor: "#fcb572",
     completedCheckColor: "transparent",
     label: "hora",
-    labelColor: "#00fa9a",
+    labelColor: "#fcb572",
     progressBarColor: "#c0c0c0",
     disabledStepIconColor: "#c0c0c0"
   };
 
   const nextbuttonTextStyle = {
-    backgroundColor: "#3584c5",
+    backgroundColor: "#fa7f0b",
     padding: 10,
     paddingHorizontal: 15,
     borderRadius: 12,
-    color: "white"
+    color: "white",
+    width: 95,
+    textAlign: 'center'
   };
 
   const previousbuttonTextStyle = {
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     padding: 10,
+    fontWeight: 'bold',
     borderWidth: 1,
     borderRadius: 12,
-    borderColor: "#3584c5",
-    color: "#3584c5"
+    borderColor: "#fa7f0b",
+    color: "#fa7f0b"
   };
   
   return (

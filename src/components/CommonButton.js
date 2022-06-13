@@ -15,7 +15,7 @@ function CommonButton({title, onPress}) {
 const styles = StyleSheet.create({
     button: {
         alignItems: "center",
-        backgroundColor: "#00fa9a",
+        backgroundColor: "#fa7f0b",
         padding: 20,
         margin: 15,
         borderRadius: 30,
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#fffafa',
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 17
     },
 })
 

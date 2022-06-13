@@ -143,7 +143,7 @@ const NewMeal = (props) => {
           <Text style={styles.mealText}>{mealType}</Text>
         </View>
         <LinearGradient
-            colors={['#448AFF', '#90CAF9']}
+            colors={['#f9b686', '#ff6800']}
             style={{
               // flex:1,
               height: height / 3
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     zIndex: 7000
   },
   popupWrap:{
-    backgroundColor: "#80d0c7",
+    backgroundColor: "#c0d401",
     width: width / 2,
     height: width / 2,
     borderRadius: 30,
@@ -267,13 +267,13 @@ const styles = StyleSheet.create({
   },
   mealAnimationTitle:{
     color:"#fff",
-    fontWeight: '600',
-    fontSize: 20
+    fontWeight: 'bold',
+    fontSize: 25
   },
   mealDescText:{
     color:"#fff",
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 19,
     marginTop: 5,
     marginBottom: 5
   }

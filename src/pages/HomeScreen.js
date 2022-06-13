@@ -218,9 +218,9 @@ const HomeScreen = (props) => {
                 percent={percent}
                 radius={height / 10}
                 borderWidth={7}
-                color='tomato'
+                color='#c0d401'
                 shadowColor="#fff"
-                bgColor='tomato'
+                bgColor='#ff6800'
                 style={{opacity: barOpacity}}
                 >
                 {/* <View style={styles.progressText}>
@@ -245,24 +245,24 @@ const HomeScreen = (props) => {
                 <Text style={styles.nutritionText}>Protein</Text>
                 <Text style={styles.nutritionText2}>{nutrients.protein}g / {proteinDaily}g</Text>
               </View>
-              {!nutrients.protein ? <ProgressBar progress={30} style={styles.progressBar} color='yellow'/> :
-              <ProgressBar progress={proteinPercent} style={styles.progressBar} color='yellow'/>}
+              {!nutrients.protein ? <ProgressBar progress={30} style={styles.progressBar} color='#fff'/> :
+              <ProgressBar progress={proteinPercent} style={styles.progressBar} color='#c0d401'/>}
             </View>
             <View style={styles.nutrientWrap}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.nutritionText}>Fat</Text>
                 <Text style={styles.nutritionText2}>{nutrients.fat}g / {fatDaily}g</Text>
               </View>
-              {!nutrients.fat ? <ProgressBar progress={30} style={styles.progressBar} color='yellow'/> :
-              <ProgressBar progress={fatPercent} style={styles.progressBar} color='yellow'/>}
+              {!nutrients.fat ? <ProgressBar progress={30} style={styles.progressBar} color='#fff'/> :
+              <ProgressBar progress={fatPercent} style={styles.progressBar} color='#c0d401'/>}
             </View>
             <View style={styles.nutrientWrap}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.nutritionText}>Carbs</Text>
                 <Text style={styles.nutritionText2}>{nutrients.carbs}g / {carbDaily}g</Text>
               </View>
-              {!nutrients.carbs ? <ProgressBar progress={30} style={styles.progressBar} color='yellow'/> :
-              <ProgressBar progress={carbsPercent} style={styles.progressBar} color='yellow'/>}
+              {!nutrients.carbs ? <ProgressBar progress={30} style={styles.progressBar} color='#fff'/> :
+              <ProgressBar progress={carbsPercent} style={styles.progressBar} color='#c0d401'/>}
             </View>
             <TouchableOpacity
               onPress={() => {
@@ -270,7 +270,7 @@ const HomeScreen = (props) => {
               }}
               style={styles.detailsButton}>
               <Text style={styles.detailText}>
-                See details
+               
               </Text>
             </TouchableOpacity>
           </Animated.View>
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     top:0,
     width: '100%',
     height: height / 2.6,
-    backgroundColor: 'tomato',
+    backgroundColor: '#ff6800',
     marginBottom: height / 2.6,
     zIndex: 4000,
     overflow: 'hidden'
@@ -477,6 +477,7 @@ const styles = StyleSheet.create({
   },
   progressBar:{
     width: width / 3,
+    height: 5,
     backgroundColor: '#fff'
   },
   nutrientWrap:{
@@ -484,14 +485,16 @@ const styles = StyleSheet.create({
   },
   nutritionText:{
     color: "#fff",
-    marginBottom: 5
+    marginBottom: 5,
+    fontWeight: 'bold'
   },
   nutritionText2:{
-    fontSize: 12,
+    fontSize: 14,
     position: 'absolute',
     right: 0,
     color: "#fff",
-    marginBottom: 5
+    marginBottom: 5,
+    fontWeight: 'bold'
   },
   detailsButton:{
     marginTop: 10
